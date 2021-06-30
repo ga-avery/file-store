@@ -1,4 +1,5 @@
 import './utils/shims';
+import { title } from './utils';
 import express, { urlencoded } from 'express';
 import cors from 'cors';
 import passport from 'passport';
@@ -22,7 +23,7 @@ app.use(passport.initialize());
 myPassport(passport);
 
 app.get('/', (_, rs) => {
-  rs.status(200).json({ message: 'Smile, you are being watched by the Backend Engineering Team' });
+  rs.status(200).json({ message: title() });
 });
 
 app.get('/ping', (_, rs) => {
