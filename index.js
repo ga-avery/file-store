@@ -12,8 +12,7 @@ import books from './api/books';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const FRONTEND = process.env.FRONTEND ?? 'http://localhost';
-console.log('frontend', process.env.FRONTEND);
+const BACKEND = process.env.BACKEND ?? 'http://localhost';
 const PORT = process.env.PORT ?? 80;
 const app = express();
 
@@ -51,7 +50,7 @@ const getSha256 = data => {
 app.get('/profile/files', passport.authenticate('jwt', { session: false }), async (rq, rs) => {
   const id = rq.user.id;
   const user = await User.findOne({ _id: id });
-  const files = user.files.map(numToLetter).map(file => `${FRONTEND}/${file}`);
+  const files = user.files.map(numToLetter).map(file => `${BACKEND}/${file}`);
   rs.json(files);
 });
 app.post('/', async (rq, rs) => {
@@ -80,7 +79,7 @@ app.post('/', async (rq, rs) => {
     user.files.push(dbFile.id);
     await user.save();
   }
-  rs.send(`${FRONTEND}/${numToLetter(dbFile.id)}`);
+  rs.send(`${BACKEND}/${numToLetter(dbFile.id)}`);
 
 });
 app.delete('/:id', passport.authenticate('jwt', { session: false }), async (rq, rs) => {
