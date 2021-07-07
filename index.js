@@ -1,4 +1,4 @@
-// import './utils/shims';
+import './utils/shims';
 import { title } from './utils';
 import express, { urlencoded } from 'express';
 import cors from 'cors';
