@@ -12,6 +12,7 @@ import books from './api/books';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
+console.log(__dirname);
 const BACKEND = process.env.BACKEND ?? 'http://localhost';
 const PORT = process.env.PORT ?? 80;
 const app = express();
