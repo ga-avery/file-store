@@ -13,6 +13,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FRONTEND = process.env.FRONTEND ?? 'http://localhost';
+console.log('frontend', process.env.FRONTEND);
 const PORT = process.env.PORT ?? 80;
 const app = express();
 
