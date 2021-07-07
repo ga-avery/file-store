@@ -5,6 +5,7 @@ import cors from 'cors';
 import passport from 'passport';
 import fileUpload from 'express-fileupload';
 import myPassport from './config/passport';
+import fs from 'fs';
 // Controllers
 import users from './api/users';
 import books from './api/books';
@@ -12,7 +13,11 @@ import books from './api/books';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-console.log(__dirname);
+try {
+  fs.mkdir(__dirname + '/static');
+} catch (e) {
+  console.error(e);
+}
 const BACKEND = process.env.BACKEND ?? 'http://localhost';
 const PORT = process.env.PORT ?? 80;
 const app = express();
