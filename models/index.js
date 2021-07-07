@@ -1,12 +1,17 @@
 import '../utils/shims';
 import mongoose from 'mongoose';
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/mernAuth', {
+const connectionString = process.env.NODE_ENV === 'production'
+  ? process.env.DB_URL
+  : 'mongodb://localhost/fileStore';
+
+mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: true,
   useCreateIndex: true,
 });
+
 
 const db = mongoose.connection;
 db.once('open', () => {
@@ -19,3 +24,4 @@ db.on('error', error => {
 // export all models
 export { User } from './User';
 export { Book } from './Book';
+export { DBFile } from './DBFile';

@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  files: {
+    type: mongoose.SchemaTypes.Array,
+    default: [],
+  },
   date: {
     type: Date,
     default: Date.now()

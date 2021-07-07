@@ -9,10 +9,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 import { User } from '../models';
 
 
-const test = async (_, rs) => {
-  rs.json({ message: 'User endpoint OK!' });
-};
-
 const signup = async (rq, rs) => {
   console.log('--- inside of signup ---');
   console.log('rq.body', rq.body);
@@ -44,7 +40,10 @@ const signup = async (rq, rs) => {
     const hash = await bcrypt.hash(password, salt);
     newUser.password = hash;
     const savedUser = await newUser.save();
-    rs.json(savedUser);
+    const user0 = JSON.parse(JSON.stringify(savedUser));
+    delete user0.password;
+
+    rs.json(user0);
   } catch (error) {
     console.error('[/api/users/signup]', error, '[signup]');
     return rs.status(400).json({ message: 'error occurred, please try again' });
@@ -77,7 +76,7 @@ const login = async (rq, rs) => {
     try {
       const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
       console.log('token', token);
-      const legit = jwt.verify(token, JWT_SECRET, { expiresIn: '1m' });
+      const legit = jwt.verify(token, JWT_SECRET, { expiresIn: '1h' });
       return rs.json({
         success: true,
         token: `Bearer ${token}`,
@@ -102,7 +101,6 @@ const profile = async (rq, rs) => {
   });
 };
 
-router.get('/test', test);
 router.post('/signup', signup);
 router.post('/login', login);
 router.get('/profile', passport.authenticate('jwt', { session: false }), profile);
